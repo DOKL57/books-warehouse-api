@@ -23,6 +23,10 @@ public class Genre {
     @Column(name = "name")
     private String name;
 
+    public Genre(String name) {
+        this.name = name;
+    }
+
     @Override
     public boolean equals(Object o){
         if(this == o) return true;
