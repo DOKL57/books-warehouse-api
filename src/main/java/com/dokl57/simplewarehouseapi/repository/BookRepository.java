@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface BookRepository extends CrudRepository<Book, Long> {
 
-    Optional<Book> findByPagesAndGenreNameAAndAuthor(int pages, String genreName, String author);
+    Optional<Book> findByPagesAndGenreNameAndAuthor(int pages, String genreName, String author);
 
     List<Book> findByGenreNameAndPagesGreaterThan(String genreName, int pages);
 
