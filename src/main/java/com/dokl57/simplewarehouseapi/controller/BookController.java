@@ -36,7 +36,7 @@ public class BookController {
     }
 
     @GetMapping("/getTotalBooksByParams")
-    public void getTotalBooksByParams(@Valid @RequestBody BookRequestDto bookRequestDto) {
+    public void getTotalBooksByParams(@Valid BookRequestDto bookRequestDto) {
         log.info("Get total books with title {} by param {} than {}", bookRequestDto.getTitle(), bookRequestDto.getOperation(), bookRequestDto.getQuantity());
         bookService.getTotalBooksByParams(bookRequestDto.getTitle(), bookRequestDto.getQuantity(), bookRequestDto.getOperation());
     }
