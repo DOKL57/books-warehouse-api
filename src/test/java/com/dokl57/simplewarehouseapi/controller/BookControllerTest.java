@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -28,7 +29,7 @@ class BookControllerTest {
     private final String TITLE = "bookName";
     private final String AUTHOR = "author";
     private final int PAGES = 100;
-    private final String GEBRE = "genre";
+    private final String GENRE = "genre";
     private final int QUANTITY = 30;
     private final String OPERATION = "<";
 
@@ -41,7 +42,7 @@ class BookControllerTest {
     void incomeValid() throws Exception {
         mockMvc.perform(
                 post(COMMON_PART + "/income").contentType(MediaType.APPLICATION_JSON)
-                        .content(incomeOutcomeContent(TITLE, AUTHOR, PAGES, QUANTITY, GEBRE))).andExpect(status().isOk());
+                        .content(incomeOutcomeContent(TITLE, AUTHOR, PAGES, QUANTITY, GENRE))).andExpect(status().isOk());
 
 
     }
@@ -50,36 +51,64 @@ class BookControllerTest {
     void incomeInvalidPages() throws Exception {
         mockMvc.perform(
                 post(COMMON_PART + "/income").contentType(MediaType.APPLICATION_JSON)
-                        .content(incomeOutcomeContent(TITLE, AUTHOR, INVALID_PAGES, QUANTITY, GEBRE))).andExpect(status().isBadRequest());
+                        .content(incomeOutcomeContent(TITLE, AUTHOR, INVALID_PAGES, QUANTITY, GENRE))).andExpect(status().isBadRequest());
     }
 
     @Test
     void incomeInvalidQuantity() throws Exception {
         mockMvc.perform(
                 post(COMMON_PART + "/income").contentType(MediaType.APPLICATION_JSON)
-                        .content(incomeOutcomeContent(TITLE, AUTHOR, PAGES, INVALID_QUANTITY, GEBRE))).andExpect(status().isBadRequest());
+                        .content(incomeOutcomeContent(TITLE, AUTHOR, PAGES, INVALID_QUANTITY, GENRE))).andExpect(status().isBadRequest());
     }
 
     @Test
     void outcomeValid() throws Exception {
         mockMvc.perform(
                 post(COMMON_PART + "/outcome").contentType(MediaType.APPLICATION_JSON)
-                        .content(incomeOutcomeContent(TITLE, AUTHOR, PAGES, QUANTITY, GEBRE))).andExpect(status().isOk());
+                        .content(incomeOutcomeContent(TITLE, AUTHOR, PAGES, QUANTITY, GENRE))).andExpect(status().isOk());
     }
 
     @Test
     void outcomeInvalidPages() throws Exception {
         mockMvc.perform(
                 post(COMMON_PART + "/outcome").contentType(MediaType.APPLICATION_JSON)
-                        .content(incomeOutcomeContent(TITLE, AUTHOR, INVALID_PAGES, QUANTITY, GEBRE))).andExpect(status().isBadRequest());
+                        .content(incomeOutcomeContent(TITLE, AUTHOR, INVALID_PAGES, QUANTITY, GENRE))).andExpect(status().isBadRequest());
     }
 
     @Test
     void outcomeInvalidQuantity() throws Exception {
         mockMvc.perform(
                 post(COMMON_PART + "/outcome").contentType(MediaType.APPLICATION_JSON)
-                        .content(incomeOutcomeContent(TITLE, AUTHOR, PAGES, INVALID_QUANTITY, GEBRE))).andExpect(status().isBadRequest());
+                        .content(incomeOutcomeContent(TITLE, AUTHOR, PAGES, INVALID_QUANTITY, GENRE))).andExpect(status().isBadRequest());
     }
+
+    // these test and later dont works
+    @Test
+    void getTotalBooksByParamValid() throws Exception {
+        mockMvc.perform(
+                get(COMMON_PART + "/getTotalBooksByParams")
+                        .param("title", TITLE)
+                        .param("author", AUTHOR)
+                        .param("pages", String.valueOf(PAGES))
+                        .param("quantity", String.valueOf(QUANTITY))
+                        .param("genre", GENRE)
+                        .param("operation", OPERATION)
+                        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+    }
+
+    @Test
+    void getTotalBooksByParamInvalidOperation() throws Exception {
+        mockMvc.perform(
+                get(COMMON_PART + "/getTotalBooksByParams")
+                        .param("title", TITLE)
+                        .param("author", AUTHOR)
+                        .param("pages", String.valueOf(PAGES))
+                        .param("quantity", String.valueOf(QUANTITY))
+                        .param("genre", GENRE)
+                        .param("operation", INVALID_OPERATION)
+                        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+    }
+    
 
     private String incomeOutcomeContent(String title, String author, int pages, int quantity, String genre) {
         return String.format("{\"title\":\"%s\",\"author\":\"%s\",\"pages\":%d,\"quantity\":%d,\"genre\":\"%s\"}", title, author, pages, quantity, genre);
