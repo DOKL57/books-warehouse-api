@@ -37,9 +37,9 @@ class BookServiceTest {
     private final String AUTHOR = "author";
     private final String TITLE = "title";
 
-    private final String OPERATION_LESS_THAN = "<";
-    private final String OPERATION_MORE_THAN = ">";
-    private final String OPERATION_EQUAL = "=";
+    private final String OPERATION_LESS_THAN = "less";
+    private final String OPERATION_MORE_THAN = "more";
+    private final String OPERATION_EQUAL = "equal";
     private final String OPERATION_UNKNOWN = "unknown";
 
     @Test
