@@ -104,24 +104,24 @@ class BookServiceTest {
     }
     @Test
     void findByGenreNameAndPagesLessThan(){
-        bookService.getTotalBooksByParams(GENRE, PAGES, OPERATION_LESS_THAN);
+        bookService.getBooksByParams(GENRE, PAGES, OPERATION_LESS_THAN);
         verify(bookRepositoryMock, times(1)).findByGenreNameAndPagesLessThan(GENRE, PAGES);
     }
     @Test
     void findByGenreNameAndPagesMoreThanThan(){
-        bookService.getTotalBooksByParams(GENRE, PAGES, OPERATION_MORE_THAN);
+        bookService.getBooksByParams(GENRE, PAGES, OPERATION_MORE_THAN);
         verify(bookRepositoryMock, times(1)).findByGenreNameAndPagesGreaterThan(GENRE, PAGES);
     }
     @Test
     void findByGenreNameAndPagesEqual(){
-        bookService.getTotalBooksByParams(GENRE, PAGES, OPERATION_EQUAL);
+        bookService.getBooksByParams(GENRE, PAGES, OPERATION_EQUAL);
         verify(bookRepositoryMock, times(1)).findByGenreNameAndPagesEquals(GENRE, PAGES);
     }
 
     @Test
     void findByGenreNameAndPagesUnknown(){
         Assertions.assertThrows(ValidationException.class, () -> {
-            bookService.getTotalBooksByParams(GENRE, PAGES, OPERATION_UNKNOWN);
+            bookService.getBooksByParams(GENRE, PAGES, OPERATION_UNKNOWN);
         });
     }
 

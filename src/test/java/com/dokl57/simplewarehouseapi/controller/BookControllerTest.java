@@ -31,11 +31,11 @@ class BookControllerTest {
     private final int PAGES = 100;
     private final String GENRE = "genre";
     private final int QUANTITY = 30;
-    private final String OPERATION = "<";
+    private final String OPERATION = "more";
 
     private final int INVALID_PAGES = -1;
     private final int INVALID_QUANTITY = -1;
-    private final String INVALID_OPERATION = "invalidOperation";
+    private final String INVALID_OPERATION = "inv";
 
 
     @Test
@@ -86,29 +86,23 @@ class BookControllerTest {
     @Test
     void getTotalBooksByParamValid() throws Exception {
         mockMvc.perform(
-                get(COMMON_PART + "/getTotalBooksByParams")
-                        .param("title", TITLE)
-                        .param("author", AUTHOR)
+                get(COMMON_PART + "/getBooksByParams")
                         .param("pages", String.valueOf(PAGES))
-                        .param("quantity", String.valueOf(QUANTITY))
                         .param("genre", GENRE)
                         .param("operation", OPERATION)
                         .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
 
     @Test
-    void getTotalBooksByParamInvalidOperation() throws Exception {
+    void getTotalBooksByParamInvalidPages() throws Exception {
         mockMvc.perform(
-                get(COMMON_PART + "/getTotalBooksByParams")
-                        .param("title", TITLE)
-                        .param("author", AUTHOR)
-                        .param("pages", String.valueOf(PAGES))
-                        .param("quantity", String.valueOf(QUANTITY))
+                get(COMMON_PART + "/getBooksByParams")
+                        .param("pages", String.valueOf(INVALID_PAGES))
                         .param("genre", GENRE)
-                        .param("operation", INVALID_OPERATION)
+                        .param("operation", OPERATION)
                         .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
     }
-    
+
 
     private String incomeOutcomeContent(String title, String author, int pages, int quantity, String genre) {
         return String.format("{\"title\":\"%s\",\"author\":\"%s\",\"pages\":%d,\"quantity\":%d,\"genre\":\"%s\"}", title, author, pages, quantity, genre);

@@ -1,15 +1,19 @@
 package com.dokl57.simplewarehouseapi.controller;
 
 import com.dokl57.simplewarehouseapi.dto.BookChangeDto;
+import com.dokl57.simplewarehouseapi.dto.BookRequestDto;
+import com.dokl57.simplewarehouseapi.entity.Book;
+import com.dokl57.simplewarehouseapi.exception.ValidationException;
 import com.dokl57.simplewarehouseapi.service.BookService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -35,11 +39,16 @@ public class BookController {
         bookService.outcome(bookChangeDto.getTitle(), bookChangeDto.getAuthor(), bookChangeDto.getPages(), bookChangeDto.getQuantity(), bookChangeDto.getGenre());
     }
 
-    @GetMapping("/getTotalBooksByParams")
-    public void getTotalBooksByParams(@Valid BookRequestDto bookRequestDto) {
-        log.info("Get total books with title {} by param {} than {}", bookRequestDto.getTitle(), bookRequestDto.getOperation(), bookRequestDto.getQuantity());
-        bookService.getTotalBooksByParams(bookRequestDto.getTitle(), bookRequestDto.getQuantity(), bookRequestDto.getOperation());
+    @GetMapping("/getBooksByParams")
+    public List<Book> getBooksByParams(@Valid BookRequestDto bookRequestDto) {
+        log.info("Get books with genre {}, {} than {} pages", bookRequestDto.getGenre(), bookRequestDto.getOperation(), bookRequestDto.getPages());
+        return bookService.getBooksByParams(bookRequestDto.getOperation(), bookRequestDto.getPages(), bookRequestDto.getOperation());
     }
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException e) {
+        return new ResponseEntity<>("{\n \"exception\" : \"" + e.getMessage() + "\"\n}", HttpStatus.BAD_REQUEST);
+    }
 
 }
