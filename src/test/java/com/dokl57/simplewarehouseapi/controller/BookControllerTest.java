@@ -82,7 +82,6 @@ class BookControllerTest {
                         .content(incomeOutcomeContent(TITLE, AUTHOR, PAGES, INVALID_QUANTITY, GENRE))).andExpect(status().isBadRequest());
     }
 
-    // these test and later dont works
     @Test
     void getTotalBooksByParamValid() throws Exception {
         mockMvc.perform(
