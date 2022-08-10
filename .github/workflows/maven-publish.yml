@@ -4,6 +4,14 @@
 name: books-warehouse-api cicd flow
 
 on:
+  push:
+    branches:
+        - master
+        - main
+  pull_request:
+    branches:
+      - master
+      - main
   release:
     types: [created]
 
