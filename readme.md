@@ -6,7 +6,7 @@ API to automate the accounting of goods in the warehouse of the bookstore
 ## Running the application locally
 
 ```shell
-git https://github.com/DOKL57/books-warehouse-api.git
+git clone https://github.com/DOKL57/books-warehouse-api.git
 cd ./books-warehouse-api
 docker-compose up -d
 mvn spring-boot:run
